@@ -1,0 +1,65 @@
+# Railway Environment Variables Configuration
+# Updated: 2025-11-17
+# New SMTP Account: aimagicbox@arriival.com
+
+## SMTP Configuration (arriival.com - Port 465 SSL)
+
+SMTP_HOST=mail.arriival.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=aimagicbox@arriival.com
+SMTP_PASS=Arr!!9394!@#
+SMTP_FROM=aimagicbox@arriival.com
+SMTP_FROM_NAME=AI MagicBox
+
+## Application Configuration
+
+APP_URL=https://web-production-8cd2.up.railway.app
+
+## Important Notes:
+
+1. Port 465 uses SSL/TLS (secure: true)
+2. This is a NEW email account specifically for aimagicbox
+3. Sender email is now aimagicbox@arriival.com (not careteam@arriival.com)
+
+## How to Update Railway:
+
+1. Login to Railway: https://railway.app
+2. Open your aimagicbox project
+3. Click on the "web" service
+4. Click on "Variables" tab
+5. Update or add these variables:
+   - SMTP_PORT = 465
+   - SMTP_SECURE = true
+   - SMTP_USER = aimagicbox@arriival.com
+   - SMTP_PASS = Arr!!9394!@#
+   - SMTP_FROM = aimagicbox@arriival.com
+6. Save and wait for automatic redeployment (1-2 minutes)
+
+## Testing:
+
+After updating variables:
+1. Go to: https://web-production-8cd2.up.railway.app/register
+2. Register a new test account
+3. Check Railway logs for email sending status
+4. Check email inbox (should arrive in 1-2 minutes)
+
+## Expected Behavior:
+
+When a user registers:
+1. User fills registration form
+2. System creates user account (email_verified = false)
+3. System sends verification email from aimagicbox@arriival.com
+4. User receives email with "Verify Email Address" button
+5. User clicks button → redirects to verification page
+6. System marks email_verified = true
+7. User can now login
+
+## Verification Email Features:
+
+- Professional HTML template with purple/pink gradient
+- Responsive design for mobile and desktop
+- Clear call-to-action button
+- Footer with website links
+- Plain text fallback for email clients without HTML support
+- Auto-redirect to aimagicbox.com after verification (3 seconds)
