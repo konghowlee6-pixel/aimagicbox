@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { useMessageDialog } from "@/components/MessageDialog";
 
 export default function SignUp() {
   const [, setLocation] = useLocation();
+  const { dialogState, showMessage, closeDialog, MessageDialogComponent } = useMessageDialog();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -78,14 +80,18 @@ export default function SignUp() {
         return;
       }
 
-      // Stop loading before showing alert
+      // Stop loading before showing message
       setIsLoading(false);
       
-      // Show success message and redirect to login
-      alert("Registration successful! Please check your email to verify your account before logging in.");
+      // Show success message dialog
+      showMessage(
+        "success",
+        "Registration Successful!",
+        "Please check your email to verify your account before logging in. We've sent a verification link to " + formData.email
+      );
       
-      // Redirect to login page instead of auto-login
-      setLocation("/");
+      // Redirect to login page after user closes dialog
+      setTimeout(() => setLocation("/"), 2000);
     } catch (err: any) {
       setError(err.message || "An error occurred during registration");
       setIsLoading(false);
@@ -299,6 +305,9 @@ export default function SignUp() {
           </p>
         </div>
       </div>
+
+      {/* Custom Message Dialog */}
+      <MessageDialogComponent />
     </div>
   );
 }
