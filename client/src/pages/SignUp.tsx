@@ -100,7 +100,7 @@ export default function SignUp() {
         </button>
 
         {/* Logo with Drop Shadow */}
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-2">
           <div 
             className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
             style={{ boxShadow: '0 4px 14px rgba(138, 43, 226, 0.4)' }}

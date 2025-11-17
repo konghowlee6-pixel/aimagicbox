@@ -65,7 +65,7 @@ export default function Login() {
       {/* Login Box - Increased Width for Better Footer Layout */}
       <div className="bg-white w-full max-w-[460px] rounded-[20px] p-8 sm:p-10 shadow-2xl">
         {/* Logo with Drop Shadow */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-2">
           <div 
             className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
             style={{ boxShadow: '0 4px 14px rgba(138, 43, 226, 0.4)' }}

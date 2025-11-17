@@ -1,0 +1,53 @@
+# Railway Environment Variables Configuration
+# Copy and paste these into Railway's Variables tab
+
+# ============================================
+# REQUIRED VARIABLES (Must be set)
+# ============================================
+
+SESSION_SECRET=railway-production-secret-key-$(openssl rand -hex 32)
+JWT_SECRET=railway-jwt-secret-key-$(openssl rand -hex 32)
+
+# ============================================
+# API KEYS (Your existing keys)
+# ============================================
+
+RUNWARE_API_KEY=nhfOlliGtbwKtXaxWZyXNcF0FAwlOLXO
+GEMINI_API_KEY=AIzaSyA2PP-C-SlNs7vNyvsIXnFBZVFzsukOzQ8
+
+# ============================================
+# SMTP Configuration (Email)
+# ============================================
+
+SMTP_HOST=mail.arriival.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=careteam@arriival.com
+SMTP_PASS=Lin!!8899!@#!@#
+SMTP_FROM=careteam@arriival.com
+SMTP_FROM_NAME=AI MagicBox
+
+# ============================================
+# Application URL (Update after domain setup)
+# ============================================
+
+APP_URL=https://web-production-8cd2.up.railway.app
+
+# ============================================
+# OPTIONAL VARIABLES (Can be added later)
+# ============================================
+
+# Firebase (if you want to use Firebase auth)
+# VITE_FIREBASE_API_KEY=
+# VITE_FIREBASE_AUTH_DOMAIN=
+# VITE_FIREBASE_PROJECT_ID=
+# VITE_FIREBASE_STORAGE_BUCKET=
+# VITE_FIREBASE_MESSAGING_SENDER_ID=
+# VITE_FIREBASE_APP_ID=
+
+# Google Cloud TTS
+# GOOGLE_APPLICATION_CREDENTIALS=
+
+# ============================================
+# NOTE: DATABASE_URL is automatically set by Railway
+# ============================================

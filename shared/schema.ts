@@ -17,6 +17,8 @@ export const users = pgTable("users", {
   emailVerified: integer("email_verified").default(0).notNull(), // 0 = not verified, 1 = verified
   verificationToken: text("verification_token"), // token for email verification
   verificationTokenExpiry: timestamp("verification_token_expiry"), // expiry time for verification token
+  resetPasswordToken: text("reset_password_token"), // token for password reset
+  resetPasswordTokenExpiry: timestamp("reset_password_token_expiry"), // expiry time for password reset token
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

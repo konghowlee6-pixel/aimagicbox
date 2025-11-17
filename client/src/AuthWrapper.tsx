@@ -8,6 +8,7 @@ import SignUp from '@/pages/SignUp';
 import SimpleLogin from '@/pages/SimpleLogin';
 import SimpleRegister from '@/pages/SimpleRegister';
 import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
 import EmailVerified from '@/pages/EmailVerified';
 import TermsOfService from '@/pages/TermsOfService';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
@@ -117,6 +118,10 @@ const AuthGate: React.FC = () => {
     if (window.location.pathname === '/forgot-password') {
       console.log('🔑 Rendering ForgotPassword');
       return <ForgotPassword />;
+    }
+    if (window.location.pathname === '/reset-password') {
+      console.log('🔐 Rendering ResetPassword');
+      return <ResetPassword />;
     }
     if (window.location.pathname === '/verify-email') {
       console.log('✉️ Rendering EmailVerified');
