@@ -124,6 +124,17 @@ router.post('/register', async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Generate verification token
+    const verificationToken = jwt.sign(
+      { email: email.toLowerCase(), type: 'email-verification' },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    // Set token expiry (24 hours from now)
+    const expiryDate = new Date();
+    expiryDate.setHours(expiryDate.getHours() + 24);
+
     // Create new user
     const [newUser] = await db
       .insert(users)
@@ -131,11 +142,19 @@ router.post('/register', async (req, res) => {
         email: email.toLowerCase(),
         password: hashedPassword,
         displayName: displayName || email.split('@')[0],
-        emailVerified: 0 // Default unverified
+        emailVerified: 0, // Default unverified
+        verificationToken: verificationToken,
+        verificationTokenExpiry: expiryDate
       })
       .returning();
 
-    // Generate JWT token
+    // Send verification email
+    const { sendVerificationEmail } = await import('./emailService');
+    await sendVerificationEmail(newUser.email, verificationToken, newUser.displayName || undefined);
+    
+    console.log('[AUTH] Verification email sent to:', newUser.email);
+
+    // Generate JWT token for login
     const token = jwt.sign(
       { 
         userId: newUser.id, 
@@ -148,7 +167,7 @@ router.post('/register', async (req, res) => {
     // Return success response
     res.json({
       success: true,
-      message: 'Registration successful',
+      message: 'Registration successful! Please check your email to verify your account.',
       token,
       user: {
         id: newUser.id,
