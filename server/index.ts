@@ -42,6 +42,12 @@ app.use(cors({
       return callback(null, true);
     }
     
+    // Allow Railway domains
+    if (origin.includes('.railway.app') || origin.includes('.up.railway.app')) {
+      console.log('[CORS] ✅ Allowing Railway origin:', origin);
+      return callback(null, true);
+    }
+    
     // Check if origin is in allowed list or is a Replit dev domain
     if (allowedOrigins.includes(origin) || origin.includes('.replit.dev')) {
       console.log('[CORS] ✅ Allowing origin:', origin);
