@@ -72,10 +72,15 @@ export default function SignUp() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Show specific error message
-        throw new Error(data.message || "Registration failed");
+        // Show specific error message from backend
+        setError(data.message || "Registration failed");
+        setIsLoading(false);
+        return;
       }
 
+      // Stop loading before showing alert
+      setIsLoading(false);
+      
       // Show success message and redirect to login
       alert("Registration successful! Please check your email to verify your account before logging in.");
       

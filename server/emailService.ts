@@ -13,6 +13,12 @@ const SMTP_CONFIG = {
     user: process.env.SMTP_USER || 'careteam@arriival.com',
     pass: process.env.SMTP_PASS || 'Lin!!8899!@#!@#',
   },
+  connectionTimeout: 5000, // 5 seconds connection timeout
+  greetingTimeout: 5000, // 5 seconds greeting timeout
+  socketTimeout: 10000, // 10 seconds socket timeout
+  pool: true, // Use pooled connections
+  maxConnections: 5,
+  maxMessages: 100,
 };
 
 const FROM_EMAIL = process.env.SMTP_FROM || 'careteam@arriival.com';
