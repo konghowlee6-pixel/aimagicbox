@@ -1,0 +1,210 @@
+/* Subscription Page Premium Animations */
+
+/* ==========================================
+   CHAMELEON GRADIENT ANIMATION
+   ========================================== */
+
+/* Animated gradient effect for premium elements */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Chameleon Title - "Choose Your AI Magic Box Plan" */
+.chameleon-title {
+  background: linear-gradient(270deg, #4b6bfb, #a855f7, #22d3ee, #4b6bfb);
+  background-size: 600% 600%;
+  animation: gradientShift 8s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+  display: inline-block;
+  padding-bottom: 0.25rem;
+  overflow: visible;
+}
+
+/* Fallback for browsers that don't support background-clip */
+@supports not (background-clip: text) {
+  .chameleon-title {
+    background: none;
+    color: #4b6bfb;
+    -webkit-text-fill-color: unset;
+  }
+}
+
+/* Dark mode support for chameleon title */
+.dark .chameleon-title {
+  background: linear-gradient(270deg, #4b6bfb, #a855f7, #22d3ee, #4b6bfb);
+  background-size: 600% 600%;
+  animation: gradientShift 8s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==========================================
+   CHAMELEON BUTTON ANIMATION
+   ========================================== */
+
+/* ProFusion Subscribe Button with Chameleon Effect */
+.chameleon-button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(270deg, #4b6bfb, #a855f7, #22d3ee, #4b6bfb);
+  background-size: 600% 600%;
+  animation: gradientShift 8s ease infinite;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(75, 107, 251, 0.3);
+}
+
+.chameleon-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(75, 107, 251, 0.4);
+}
+
+.chameleon-button:active {
+  transform: translateY(0px);
+  box-shadow: 0 5px 15px rgba(75, 107, 251, 0.3);
+}
+
+/* Shimmer effect overlay on button */
+.chameleon-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* ==========================================
+   CHECKMARK ICON ANIMATIONS
+   ========================================== */
+
+/* Consistent checkmark icon styling */
+.check-icon-circle {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  border-radius: 50%;
+  background-color: #e6f9ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.dark .check-icon-circle {
+  background-color: rgba(50, 210, 150, 0.15);
+}
+
+/* Checkmark SVG styling */
+.check-icon-svg {
+  width: 20px;
+  height: 20px;
+  color: #32d296;
+  stroke-width: 2.5;
+  transition: all 0.3s ease;
+}
+
+/* Hover animation for checkmark */
+.check-icon-container:hover .check-icon-circle {
+  background-color: #d4f5e8;
+  transform: scale(1.1);
+}
+
+.dark .check-icon-container:hover .check-icon-circle {
+  background-color: rgba(50, 210, 150, 0.25);
+}
+
+.check-icon-container:hover .check-icon-svg {
+  color: #43e09f;
+  transform: scale(1.05);
+}
+
+/* Feature text spacing and line height */
+.feature-text {
+  line-height: 1.6em;
+  margin-left: 8px;
+}
+
+/* ==========================================
+   GPU ACCELERATION & PERFORMANCE
+   ========================================== */
+
+.chameleon-title,
+.chameleon-button,
+.check-icon-circle,
+.check-icon-svg {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* ==========================================
+   ACCESSIBILITY - REDUCED MOTION
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .chameleon-title,
+  .chameleon-button {
+    animation: none;
+    background: linear-gradient(135deg, #4b6bfb, #a855f7);
+    background-size: 100% 100%;
+  }
+  
+  .chameleon-button::before {
+    animation: none;
+  }
+  
+  .check-icon-container:hover .check-icon-circle {
+    transform: none;
+  }
+  
+  .check-icon-container:hover .check-icon-svg {
+    transform: none;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================== */
+
+@media (max-width: 768px) {
+  .chameleon-title {
+    font-size: 2rem;
+  }
+  
+  /* Maintain consistent icon size across all viewports */
+  /* Icons remain 24px circle with 20px SVG on mobile */
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=AI MagicBox Application
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/aimagicbox
+Environment="DATABASE_URL=postgresql://aimagicbox_user:aimagicbox_pass@localhost:5432/aimagicbox"
+Environment="NODE_ENV=production"
+Environment="RUNWARE_API_KEY=nhfOlliGtbwKtXaxWZyXNcF0FAwlOLXO"
+Environment="GEMINI_API_KEY=AIzaSyA2PP-C-SlNs7vNyvsIXnFBZVFzsukOzQ8"
+Environment="SESSION_SECRET=aimagicbox-production-secret-key"
+ExecStart=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && cd /home/ubuntu/aimagicbox && npm start'
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/ubuntu/aimagicbox/server.log
+StandardError=append:/home/ubuntu/aimagicbox/server.log
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,277 @@
+/* Theme Toggle Icon Animations */
+
+.theme-toggle-button {
+  position: relative;
+}
+
+/* Icon wrappers for positioning and effects */
+.icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.moon-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Base icon styles with fade transition */
+.theme-icon {
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.4s ease-in-out;
+  will-change: transform, opacity, filter;
+  transform-origin: center;
+}
+
+/* Glow container (pseudo-element behind icons) */
+.theme-toggle-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Light mode (Sun visible) - glow on hover */
+.theme-toggle-button:hover::before {
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 0.4;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.5) 0%, rgba(245, 158, 11, 0.3) 50%, transparent 100%);
+}
+
+/* Dark mode (Moon visible) - glow on hover */
+.dark .theme-toggle-button:hover::before {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, rgba(96, 165, 250, 0.3) 50%, transparent 100%);
+}
+
+/* Sun Icon Hover Animations (Light Mode) */
+.theme-toggle-button:hover .sun-icon {
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.7)) 
+          drop-shadow(0 0 12px rgba(245, 158, 11, 0.5));
+}
+
+/* Only animate sun when it's visible (not in dark mode) */
+.theme-toggle-button:hover .sun-icon:not([class*="dark:scale-0"]) {
+  animation: sunOscillate 1.2s ease-in-out infinite;
+}
+
+/* In light mode, animate the sun */
+.theme-toggle-button:hover .sun-wrapper .sun-icon {
+  animation: sunOscillate 1.2s ease-in-out infinite;
+}
+
+/* In dark mode, don't animate the sun */
+.dark .theme-toggle-button:hover .sun-wrapper .sun-icon {
+  animation: none;
+}
+
+/* Moon Icon Hover Animations (Dark Mode) */
+.theme-toggle-button:hover .moon-icon {
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.7)) 
+          drop-shadow(0 0 12px rgba(96, 165, 250, 0.5));
+}
+
+/* Only animate moon in dark mode */
+.dark .theme-toggle-button:hover .moon-wrapper .moon-icon {
+  animation: moonOscillate 1.2s ease-in-out infinite;
+}
+
+/* In light mode, don't animate the moon */
+.theme-toggle-button:hover .moon-wrapper .moon-icon:not([class*="dark:rotate-0"]) {
+  animation: none;
+}
+
+/* Sun pulsing wave effect - only visible in light mode */
+.sun-pulse-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.6) 0%, rgba(245, 158, 11, 0.3) 40%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+}
+
+/* Activate sun pulse on hover in light mode */
+.theme-toggle-button:hover .sun-pulse-wave {
+  opacity: 1;
+  animation: sunPulse 1.5s ease-out infinite;
+}
+
+/* Hide sun pulse in dark mode */
+.dark .sun-pulse-wave {
+  display: none;
+}
+
+/* Sun oscillation animation */
+@keyframes sunOscillate {
+  0%, 100% {
+    transform: scale(1.1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.12) rotate(5deg);
+  }
+  75% {
+    transform: scale(1.12) rotate(-5deg);
+  }
+}
+
+/* Moon oscillation animation */
+@keyframes moonOscillate {
+  0%, 100% {
+    transform: scale(1.05) rotate(5deg);
+  }
+  25% {
+    transform: scale(1.07) rotate(10deg);
+  }
+  75% {
+    transform: scale(1.07) rotate(0deg);
+  }
+}
+
+/* Sun pulsing wave animation */
+@keyframes sunPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Theme switch fade animation - enhanced */
+@keyframes iconFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) rotate(90deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(45deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes iconFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) rotate(-90deg);
+  }
+}
+
+/* Apply animations on theme toggle */
+.sun-icon {
+  animation: iconFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.dark .sun-icon {
+  animation: iconFadeOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.moon-icon {
+  animation: iconFadeOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.dark .moon-icon {
+  animation: iconFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Prevent animation jitter on click */
+.theme-toggle-button:active .theme-icon {
+  animation: none;
+}
+
+.theme-toggle-button:active .sun-pulse-wave {
+  animation: none;
+  opacity: 0;
+}
+
+/* GPU acceleration optimization */
+.theme-icon,
+.icon-wrapper,
+.sun-pulse-wave,
+.theme-toggle-button::before {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .theme-toggle-button:hover .sun-icon,
+  .theme-toggle-button:hover .moon-icon {
+    transform: scale(1.05);
+  }
+  
+  .theme-toggle-button::before {
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Reduce animation intensity on mobile */
+  @keyframes sunOscillate {
+    0%, 100% {
+      transform: scale(1.05) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.07) rotate(3deg);
+    }
+  }
+  
+  @keyframes moonOscillate {
+    0%, 100% {
+      transform: scale(1.03) rotate(3deg);
+    }
+    50% {
+      transform: scale(1.05) rotate(7deg);
+    }
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .theme-icon,
+  .sun-pulse-wave,
+  .theme-toggle-button::before {
+    animation: none !important;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .theme-toggle-button:hover .sun-icon,
+  .theme-toggle-button:hover .moon-icon {
+    transform: scale(1.05);
+    animation: none;
+  }
+}
