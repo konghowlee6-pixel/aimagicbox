@@ -72,6 +72,16 @@ export default function ResetPassword() {
     }
   };
 
+  // Auto-redirect to login page after success
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        window.location.href = "/simple-login";
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
   if (success) {
     return (
       <div className="animated-gradient min-h-screen flex items-center justify-center p-4">
@@ -86,19 +96,22 @@ export default function ResetPassword() {
           {/* Success Message */}
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-3">
-              Password Reset Successful!
+              ✅ Password Reset Successful!
             </h1>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <p className="text-gray-600 text-sm leading-relaxed mb-4">
               Your password has been successfully reset. You can now log in with your new password.
+            </p>
+            <p className="text-gray-500 text-xs">
+              Redirecting to login page in 3 seconds...
             </p>
           </div>
 
           {/* Back to Login Button */}
           <button
-            onClick={() => window.location.href = "/"}
+            onClick={() => window.location.href = "/simple-login"}
             className="gradient-button w-full py-3 rounded-full text-white font-semibold text-base"
           >
-            Go to Login
+            Go to Login Now
           </button>
         </div>
       </div>

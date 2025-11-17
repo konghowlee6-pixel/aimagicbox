@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'wouter';
+import { Link } from 'wouter';
 import { CheckCircle, XCircle, Sparkles } from 'lucide-react';
 
 export default function EmailVerified() {
-  const [, setLocation] = useLocation();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('');
 
@@ -24,10 +23,10 @@ export default function EmailVerified() {
       .then(data => {
         if (data.success) {
           setStatus('success');
-          setMessage('Your email has been verified successfully!');
-          // Redirect to login after 3 seconds
+          setMessage('Your email has been verified successfully! Welcome to AI MagicBox.');
+          // Redirect to aimagicbox.com after 3 seconds
           setTimeout(() => {
-            setLocation('/simple-login');
+            window.location.href = 'https://www.aimagicbox.com';
           }, 3000);
         } else {
           setStatus('error');
@@ -39,7 +38,7 @@ export default function EmailVerified() {
         setStatus('error');
         setMessage('Network error. Please try again later.');
       });
-  }, [setLocation]);
+  }, []);
 
   return (
     <div style={{
@@ -95,7 +94,7 @@ export default function EmailVerified() {
             <div>
               <CheckCircle size={64} color="#4caf50" style={{ margin: '0 auto 16px' }} />
               <h2 style={{ fontSize: '24px', color: '#4caf50', marginBottom: '12px' }}>
-                Success!
+                ✅ Success!
               </h2>
             </div>
           )}
@@ -122,26 +121,24 @@ export default function EmailVerified() {
         {/* Actions */}
         {status === 'success' && (
           <p style={{ fontSize: '14px', color: '#999', marginBottom: '24px' }}>
-            Redirecting to login page in 3 seconds...
+            Redirecting to AI MagicBox in 3 seconds...
           </p>
         )}
 
         <div style={{ marginTop: '24px' }}>
-          <Link to="/simple-login">
-            <a style={{
-              display: 'inline-block',
-              padding: '14px 32px',
-              fontSize: '16px',
-              color: '#fff',
-              background: 'linear-gradient(90deg, #8e2ec3, #2e8efc)',
-              border: 'none',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              cursor: 'pointer'
-            }}>
-              Go to Login
-            </a>
-          </Link>
+          <a href="https://www.aimagicbox.com" style={{
+            display: 'inline-block',
+            padding: '14px 32px',
+            fontSize: '16px',
+            color: '#fff',
+            background: 'linear-gradient(90deg, #8e2ec3, #2e8efc)',
+            border: 'none',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            cursor: 'pointer'
+          }}>
+            Go to AI MagicBox
+          </a>
         </div>
 
         {status === 'error' && (

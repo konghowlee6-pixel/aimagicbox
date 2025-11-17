@@ -5,20 +5,24 @@ import type { Transporter } from 'nodemailer';
 const createTransporter = (nodemailer as any).default?.createTransport || (nodemailer as any).createTransport;
 
 // SMTP Configuration from environment variables
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587');
 const SMTP_CONFIG = {
   host: process.env.SMTP_HOST || 'mail.arriival.com',
-  port: parseInt(process.env.SMTP_PORT || '465'),
-  secure: process.env.SMTP_SECURE === 'true' || true, // true for 465, false for other ports
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465, // true for 465, false for other ports (use STARTTLS)
   auth: {
     user: process.env.SMTP_USER || 'careteam@arriival.com',
     pass: process.env.SMTP_PASS || 'Lin!!8899!@#!@#',
   },
-  connectionTimeout: 5000, // 5 seconds connection timeout
-  greetingTimeout: 5000, // 5 seconds greeting timeout
-  socketTimeout: 10000, // 10 seconds socket timeout
-  pool: true, // Use pooled connections
-  maxConnections: 5,
-  maxMessages: 100,
+  connectionTimeout: 10000, // 10 seconds connection timeout
+  greetingTimeout: 10000, // 10 seconds greeting timeout
+  socketTimeout: 15000, // 15 seconds socket timeout
+  pool: false, // Disable pooling for debugging
+  tls: {
+    rejectUnauthorized: false, // Accept self-signed certificates
+  },
+  debug: true, // Enable debug output
+  logger: true, // Enable logging
 };
 
 const FROM_EMAIL = process.env.SMTP_FROM || 'careteam@arriival.com';
@@ -60,7 +64,7 @@ export async function sendVerificationEmail(
     const mailOptions = {
       from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
       to: email,
-      subject: 'Verify Your Email - AI MagicBox',
+      subject: 'Verify your email address – AI MagicBox',
       html: `
         <!DOCTYPE html>
         <html>
@@ -94,11 +98,15 @@ export async function sendVerificationEmail(
                       </h2>
                       
                       <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                        ${username ? `Hi ${username},` : 'Hello,'}
+                        ${username ? `Hi ${username},` : `Hi ${email},`}
                       </p>
                       
                       <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                        Thank you for registering with AI MagicBox! To complete your registration and start creating stunning marketing campaigns, please verify your email address by clicking the button below:
+                        Thank you for signing up for AI MagicBox! We're excited to have you join our community of marketers creating stunning campaigns with AI.
+                      </p>
+                      
+                      <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
+                        To complete your registration and start creating amazing marketing content, please verify your email address by clicking the button below:
                       </p>
                       
                       <!-- Verification Button -->
@@ -106,7 +114,7 @@ export async function sendVerificationEmail(
                         <tr>
                           <td align="center">
                             <a href="${verificationUrl}" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: bold;">
-                              Verify Email Address
+                              Verify My Email
                             </a>
                           </td>
                         </tr>
@@ -129,10 +137,15 @@ export async function sendVerificationEmail(
                   <!-- Footer -->
                   <tr>
                     <td style="padding: 30px 40px; background-color: #f8f9fa; border-radius: 0 0 8px 8px;">
-                      <p style="margin: 0; color: #999999; font-size: 12px; text-align: center; line-height: 1.6;">
-                        © 2024 AI MagicBox. All rights reserved.
+                      <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; text-align: center; line-height: 1.6;">
+                        © 2025 AI MagicBox. All rights reserved.
                       </p>
-                      <p style="margin: 10px 0 0 0; color: #999999; font-size: 12px; text-align: center;">
+                      <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; text-align: center;">
+                        <a href="https://www.aimagicbox.ai" style="color: #667eea; text-decoration: none;">Visit Website</a> |
+                        <a href="https://www.aimagicbox.ai/terms" style="color: #667eea; text-decoration: none;">Terms of Service</a> |
+                        <a href="https://www.aimagicbox.ai/privacy" style="color: #667eea; text-decoration: none;">Privacy Policy</a>
+                      </p>
+                      <p style="margin: 0; color: #999999; font-size: 12px; text-align: center;">
                         Create Stunning Marketing Campaigns with AI
                       </p>
                     </td>
@@ -331,7 +344,7 @@ export async function sendPasswordResetEmail(
     const mailOptions = {
       from: `"${SMTP_FROM_NAME}" <${SMTP_FROM}>`,
       to: email,
-      subject: 'Reset Your Password - AI MagicBox',
+      subject: 'Reset your password – AI MagicBox',
       html: `
         <!DOCTYPE html>
         <html>
@@ -363,7 +376,7 @@ export async function sendPasswordResetEmail(
                       </p>
                       
                       <p style="margin: 0 0 20px 0; color: #666666; font-size: 16px; line-height: 1.6;">
-                        We received a request to reset your password for your AI MagicBox account. Click the button below to create a new password:
+                        We received a request to reset the password for your AI MagicBox account. No worries! Click the button below to create a new password:
                       </p>
                       
                       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 30px 0;">
@@ -397,10 +410,15 @@ export async function sendPasswordResetEmail(
                   <tr>
                     <td style="background-color: #f9fafb; padding: 30px 40px; text-align: center; border-top: 1px solid #e5e7eb;">
                       <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px;">
-                        This is an automated email from AI MagicBox. Please do not reply.
+                        © ${new Date().getFullYear()} AI MagicBox. All rights reserved.
+                      </p>
+                      <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px;">
+                        <a href="https://www.aimagicbox.ai" style="color: #667eea; text-decoration: none;">Visit Website</a> |
+                        <a href="https://www.aimagicbox.ai/terms" style="color: #667eea; text-decoration: none;">Terms of Service</a> |
+                        <a href="https://www.aimagicbox.ai/privacy" style="color: #667eea; text-decoration: none;">Privacy Policy</a>
                       </p>
                       <p style="margin: 0; color: #999999; font-size: 12px;">
-                        © ${new Date().getFullYear()} AI MagicBox. All rights reserved.
+                        Create Stunning Marketing Campaigns with AI
                       </p>
                     </td>
                   </tr>
