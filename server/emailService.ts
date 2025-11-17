@@ -5,7 +5,7 @@ import type { Transporter } from 'nodemailer';
 const createTransporter = (nodemailer as any).default?.createTransport || (nodemailer as any).createTransport;
 
 // SMTP Configuration from environment variables
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465');
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || '26');
 const SMTP_CONFIG = {
   host: process.env.SMTP_HOST || 'mail.arriival.com',
   port: SMTP_PORT,

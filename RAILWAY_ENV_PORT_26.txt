@@ -1,0 +1,27 @@
+# Railway Environment Variables - Port 26 (Non-SSL)
+# Updated: 2025-11-17
+# Trying non-SSL port 26 configuration
+
+SMTP_HOST=mail.arriival.com
+SMTP_PORT=26
+SMTP_SECURE=false
+SMTP_USER=aimagicbox@arriival.com
+SMTP_PASS=Arr!!9394!@#
+SMTP_FROM=aimagicbox@arriival.com
+SMTP_FROM_NAME=AI MagicBox
+APP_URL=https://web-production-8cd2.up.railway.app
+
+## Notes:
+- Port 26 is a non-SSL SMTP port
+- This is the "非SSL设置" (Non-SSL Settings) from arriival.com
+- secure = false (no SSL/TLS)
+- May be more reliable than port 465 from Railway
+
+## Update Railway:
+1. Login to Railway: https://railway.app
+2. Open aimagicbox project → web service
+3. Click "Variables" tab
+4. Update:
+   - SMTP_PORT = 26
+   - SMTP_SECURE = false
+5. Save and wait for redeployment
