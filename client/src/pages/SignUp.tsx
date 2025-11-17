@@ -72,14 +72,15 @@ export default function SignUp() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
+        // Show specific error message
+        throw new Error(data.message || "Registration failed");
       }
 
-      // Store the JWT token
-      localStorage.setItem("token", data.token);
-
-      // Redirect to dashboard
-      window.location.href = "/dashboard";
+      // Show success message and redirect to login
+      alert("Registration successful! Please check your email to verify your account before logging in.");
+      
+      // Redirect to login page instead of auto-login
+      setLocation("/");
     } catch (err: any) {
       setError(err.message || "An error occurred during registration");
       setIsLoading(false);
