@@ -14,9 +14,9 @@ const SMTP_CONFIG = {
     user: process.env.SMTP_USER || 'MS_b2eK94@test-y7zpl9898do45vx6.mlsender.net',
     pass: process.env.SMTP_PASS || 'mssp.ipS44gz.jy7zpl91910g5vx6.Qz7VHD6',
   },
-  connectionTimeout: 10000, // 10 seconds connection timeout
-  greetingTimeout: 10000, // 10 seconds greeting timeout
-  socketTimeout: 15000, // 15 seconds socket timeout
+  connectionTimeout: 60000, // 60 seconds connection timeout
+  greetingTimeout: 60000, // 60 seconds greeting timeout
+  socketTimeout: 120000, // 120 seconds socket timeout
   pool: false, // Disable pooling for debugging
   tls: {
     rejectUnauthorized: false, // Accept self-signed certificates
@@ -180,7 +180,7 @@ If you didn't create an account with AI MagicBox, please ignore this email.
     const sendMailWithTimeout = Promise.race([
       transporter.sendMail(mailOptions),
       new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Email send timeout after 10 seconds')), 10000)
+        setTimeout(() => reject(new Error('Email send timeout after 120 seconds')), 120000)
       )
     ]);
     
