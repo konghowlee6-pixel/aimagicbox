@@ -5,8 +5,8 @@
  * It should be run daily via a cron job or scheduled task.
  */
 
-import { db } from '../db';
-import { visuals, campaignImages } from '../shared/schema';
+import { db } from './db';
+import { visuals, campaignImages } from '@shared/schema';
 import { lt } from 'drizzle-orm';
 
 export async function cleanupExpiredVisuals() {
