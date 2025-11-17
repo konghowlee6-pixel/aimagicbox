@@ -5,14 +5,14 @@ import type { Transporter } from 'nodemailer';
 const createTransporter = (nodemailer as any).default?.createTransport || (nodemailer as any).createTransport;
 
 // SMTP Configuration from environment variables
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '26');
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587');
 const SMTP_CONFIG = {
-  host: process.env.SMTP_HOST || 'mail.arriival.com',
+  host: process.env.SMTP_HOST || 'smtp.mailersend.net',
   port: SMTP_PORT,
   secure: SMTP_PORT === 465, // true for 465, false for other ports (use STARTTLS)
   auth: {
-    user: process.env.SMTP_USER || 'aimagicbox@arriival.com',
-    pass: process.env.SMTP_PASS || 'Arr!!9394!@#',
+    user: process.env.SMTP_USER || 'MS_b2eK94@test-y7zpl9898do45vx6.mlsender.net',
+    pass: process.env.SMTP_PASS || 'mssp.ipS44gz.jy7zpl91910g5vx6.Qz7VHD6',
   },
   connectionTimeout: 10000, // 10 seconds connection timeout
   greetingTimeout: 10000, // 10 seconds greeting timeout
