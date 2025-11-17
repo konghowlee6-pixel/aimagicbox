@@ -7,6 +7,7 @@
     "dev": "NODE_ENV=development tsx server/index.ts",
     "build": "vite build && ln -sf ../dist/public server/public",
     "migrate": "node migrate.mjs",
+    "db:fix": "node fix-db.mjs",
     "start": "node migrate.mjs && NODE_ENV=production tsx server/index.ts",
     "check": "tsc",
     "db:push": "drizzle-kit push"
