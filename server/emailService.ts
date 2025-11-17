@@ -24,6 +24,12 @@ let transporter: Transporter | null = null;
 
 function getTransporter(): Transporter {
   if (!transporter) {
+    console.log('[Email] Creating SMTP transporter with config:', {
+      host: SMTP_CONFIG.host,
+      port: SMTP_CONFIG.port,
+      secure: SMTP_CONFIG.secure,
+      user: SMTP_CONFIG.auth.user
+    });
     transporter = createTransporter(SMTP_CONFIG);
     console.log('[Email] SMTP transporter created');
   }
@@ -39,6 +45,10 @@ export async function sendVerificationEmail(
   username?: string
 ): Promise<boolean> {
   try {
+    console.log('[Email] Attempting to send verification email to:', email);
+    console.log('[Email] FROM_NAME:', FROM_NAME, 'FROM_EMAIL:', FROM_EMAIL);
+    console.log('[Email] APP_URL:', APP_URL);
+    
     const verificationUrl = `${APP_URL}/verify-email?token=${verificationToken}`;
     
     const mailOptions = {
@@ -146,9 +156,18 @@ If you didn't create an account with AI MagicBox, please ignore this email.
     };
 
     const transporter = getTransporter();
-    const info = await transporter.sendMail(mailOptions);
     
-    console.log('[Email] Verification email sent:', {
+    // Add timeout to prevent hanging
+    const sendMailWithTimeout = Promise.race([
+      transporter.sendMail(mailOptions),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Email send timeout after 10 seconds')), 10000)
+      )
+    ]);
+    
+    const info = await sendMailWithTimeout as any;
+    
+    console.log('[Email] Verification email sent successfully:', {
       messageId: info.messageId,
       to: email,
       accepted: info.accepted,
@@ -158,6 +177,10 @@ If you didn't create an account with AI MagicBox, please ignore this email.
     return true;
   } catch (error) {
     console.error('[Email] Failed to send verification email:', error);
+    console.error('[Email] Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
     return false;
   }
 }

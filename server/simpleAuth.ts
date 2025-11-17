@@ -148,11 +148,15 @@ router.post('/register', async (req, res) => {
       })
       .returning();
 
-    // Send verification email
+    // Send verification email (don't fail registration if email fails)
     const { sendVerificationEmail } = await import('./emailService');
-    await sendVerificationEmail(newUser.email, verificationToken, newUser.displayName || undefined);
+    const emailSent = await sendVerificationEmail(newUser.email, verificationToken, newUser.displayName || undefined);
     
-    console.log('[AUTH] Verification email sent to:', newUser.email);
+    if (emailSent) {
+      console.log('[AUTH] Verification email sent successfully to:', newUser.email);
+    } else {
+      console.warn('[AUTH] Failed to send verification email to:', newUser.email, '- but registration completed');
+    }
 
     // Generate JWT token for login
     const token = jwt.sign(
