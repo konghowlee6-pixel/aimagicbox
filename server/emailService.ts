@@ -5,14 +5,14 @@ import type { Transporter } from 'nodemailer';
 const createTransporter = (nodemailer as any).default?.createTransport || (nodemailer as any).createTransport;
 
 // SMTP Configuration from environment variables
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587');
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465');
 const SMTP_CONFIG = {
-  host: process.env.SMTP_HOST || 'smtp.mailersend.net',
-  port: SMTP_PORT,
-  secure: SMTP_PORT === 465, // true for 465, false for other ports (use STARTTLS)
+  host: 'mail.arriival.com',  // arriival.com的邮件服务器
+  port: 465,                  // 图片显示是465端口
+  secure: true,               // 465端口必须使用SSL
   auth: {
-    user: process.env.SMTP_USER || 'MS_b2eK94@test-y7zpl9898do45vx6.mlsender.net',
-    pass: process.env.SMTP_PASS || 'mssp.ipS44gz.jy7zpl91910g5vx6.Qz7VHD6',
+    user: 'aimagicbox@arriival.com',  // arriival.com的邮箱账户
+    pass: 'Arr!!9394!@#',     // 需要从环境变量获取密码
   },
   connectionTimeout: 60000, // 60 seconds connection timeout
   greetingTimeout: 60000, // 60 seconds greeting timeout
@@ -25,7 +25,7 @@ const SMTP_CONFIG = {
   logger: true, // Enable logging
 };
 
-const FROM_EMAIL = process.env.SMTP_FROM || 'aimagicbox@arriival.com';
+const FROM_EMAIL = 'aimagicbox@arriival.com';
 const FROM_NAME = process.env.SMTP_FROM_NAME || 'AI MagicBox';
 const APP_URL = process.env.APP_URL || 'http://localhost:5000';
 
@@ -43,7 +43,7 @@ function getTransporter(): Transporter {
     transporter = createTransporter(SMTP_CONFIG);
     console.log('[Email] SMTP transporter created');
   }
-  return transporter;
+  return transporter as Transporter; // 添加类型断言
 }
 
 /**
@@ -342,7 +342,7 @@ export async function sendPasswordResetEmail(
     const resetUrl = `${APP_URL}/reset-password?token=${resetToken}`;
     
     const mailOptions = {
-      from: `"${SMTP_FROM_NAME}" <${SMTP_FROM}>`,
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
       to: email,
       subject: 'Reset your password – AI MagicBox',
       html: `
