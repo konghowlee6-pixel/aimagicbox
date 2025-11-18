@@ -5017,8 +5017,8 @@ Placement suggestion:`;
       sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
       
       // Import db and schema directly
-      const { db } = await import('../db');
-      const { visuals, campaignImages } = await import('../shared/schema');
+      const { db } = await import('./db');
+      const { visuals, campaignImages } = await import('@shared/schema');
       const { lt } = await import('drizzle-orm');
       
       // Delete expired visuals
@@ -5057,8 +5057,8 @@ Placement suggestion:`;
       const sixtyDaysAgo = new Date();
       sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
       
-      const { db } = await import('../db');
-      const { visuals, campaignImages } = await import('../shared/schema');
+      const { db } = await import('./db');
+      const { visuals, campaignImages } = await import('@shared/schema');
       const { lt } = await import('drizzle-orm');
       
       const deletedVisuals = await db
