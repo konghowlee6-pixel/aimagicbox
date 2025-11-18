@@ -22,9 +22,11 @@ import { QUICKCLIP_RESOLUTIONS, type ResolutionKey } from "@shared/quickclip-uti
 import {
   generateAdCopy,
   generateBrandKit,
-  optimizePrompt,
+  enhancePrompt,
+  rewriteText,
   generateText,
-} from "./gemini";
+  optimizePrompt,
+} from "./deepseek";
 import { analyzeVisualForTextPlacement, generateCaptionScriptFromImage, generatePromoSceneDescription, generatePromoRecommendations, generateSceneTextOverlays } from "./ai-visual-analyzer";
 import pLimit from "p-limit";
 import {
@@ -658,7 +660,8 @@ export function registerRoutes(app: Express): Server {
         },
         services: {
           stripe: stripe ? "configured" : "not configured",
-          gemini: process.env.GEMINI_API_KEY ? "configured" : "missing",
+          deepseek: process.env.DEEPSEEK_API_KEY ? "configured" : "missing",
+          runware: process.env.RUNWARE_API_KEY ? "configured" : "missing",
           vertex: process.env.VERTEX_API_KEY ? "configured" : "missing",
           firebase: {
             projectId: process.env.VITE_FIREBASE_PROJECT_ID ? "configured" : "missing",
@@ -1127,7 +1130,7 @@ export function registerRoutes(app: Express): Server {
       // Track API usage
       await storage.createApiUsage({
         userId: user.id,
-        endpoint: "gemini_text",
+        endpoint: "deepseek_text",
         tokensUsed: Math.ceil(content.length / 4), // Rough estimate
         cost: 5, // 5 cents per generation
       });
@@ -1225,7 +1228,7 @@ export function registerRoutes(app: Express): Server {
       // Track API usage
       await storage.createApiUsage({
         userId: user.id,
-        endpoint: "gemini_text",
+        endpoint: "deepseek_text",
         tokensUsed: Math.ceil(brandKit.summary.length / 4),
         cost: 10, // 10 cents for BrandKit generation
       });
@@ -2029,7 +2032,7 @@ Narration summary:`);
       // Track API usage
       await storage.createApiUsage({
         userId: user.id,
-        endpoint: "gemini_text",
+        endpoint: "deepseek_text",
         tokensUsed: Math.ceil((prompt.length + narrationText.length) / 4),
         cost: 1, // 1 cent for narration generation
       });
@@ -2089,7 +2092,7 @@ Placement suggestion:`;
       // Track API usage
       await storage.createApiUsage({
         userId: user.id,
-        endpoint: "gemini_text",
+        endpoint: "deepseek_text",
         tokensUsed: Math.ceil((prompt.length + suggestion.length) / 4),
         cost: 1, // 1 cent for placement suggestion
       });
@@ -2118,7 +2121,7 @@ Placement suggestion:`;
       if (optimizedPrompt !== prompt) {
         await storage.createApiUsage({
           userId: user.id,
-          endpoint: "gemini_text",
+          endpoint: "deepseek_text",
           tokensUsed: Math.ceil((prompt.length + optimizedPrompt.length) / 4),
           cost: 2, // 2 cents for prompt optimization
         });
@@ -2148,7 +2151,7 @@ Placement suggestion:`;
       // Track API usage
       await storage.createApiUsage({
         userId: user.id,
-        endpoint: "gemini_text",
+        endpoint: "deepseek_text",
         tokensUsed: Math.ceil((prompt.length + generatedText.length) / 4),
         cost: 1, // 1 cent for text generation
       });
