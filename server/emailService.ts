@@ -7,12 +7,12 @@ const createTransporter = (nodemailer as any).default?.createTransport || (nodem
 // SMTP Configuration from environment variables
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465');
 const SMTP_CONFIG = {
-  host: 'mail.arriival.com',  // arriival.com的邮件服务器
-  port: 465,                  // 图片显示是465端口
-  secure: true,               // 465端口必须使用SSL
+  host: process.env.SMTP_HOST || 'mail.arriival.com',
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465,  // 465使用SSL，587使用STARTTLS
   auth: {
-    user: 'aimagicbox@arriival.com',  // arriival.com的邮箱账户
-    pass: 'Arr!!9394!@#',     // 需要从环境变量获取密码
+    user: process.env.SMTP_USER || 'aimagicbox@arriival.com',
+    pass: process.env.SMTP_PASS || 'Arr!!9394!@#',
   },
   connectionTimeout: 60000, // 60 seconds connection timeout
   greetingTimeout: 60000, // 60 seconds greeting timeout
@@ -25,7 +25,7 @@ const SMTP_CONFIG = {
   logger: true, // Enable logging
 };
 
-const FROM_EMAIL = 'aimagicbox@arriival.com';
+const FROM_EMAIL = process.env.SMTP_FROM || 'aimagicbox@arriival.com';
 const FROM_NAME = process.env.SMTP_FROM_NAME || 'AI MagicBox';
 const APP_URL = process.env.APP_URL || 'http://localhost:5000';
 
