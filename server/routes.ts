@@ -661,6 +661,7 @@ export function registerRoutes(app: Express): Server {
         services: {
           stripe: stripe ? "configured" : "not configured",
           deepseek: process.env.DEEPSEEK_API_KEY ? "configured" : "missing",
+          gemini: process.env.GEMINI_API_KEY ? "configured" : "missing",
           runware: process.env.RUNWARE_API_KEY ? "configured" : "missing",
           vertex: process.env.VERTEX_API_KEY ? "configured" : "missing",
           firebase: {
