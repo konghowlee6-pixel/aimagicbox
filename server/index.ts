@@ -14,6 +14,23 @@ const app = express();
 // Trust proxy - required for session cookies to work behind reverse proxy
 app.set('trust proxy', 1);
 
+// Domain redirect middleware - redirect old domain to new domain
+app.use((req, res, next) => {
+  const host = req.get('host');
+  const oldDomain = '5000-ikgm2xsg0rj9mun4a6zsm-7b54f699.manus.space';
+  const newDomain = '5000-ikgm2xsg0rj9mun4a6zsm-7b54f699.manus-asia.computer';
+  
+  // If request is from old domain, redirect to new domain
+  if (host === oldDomain) {
+    const protocol = req.protocol || 'https';
+    const newUrl = `${protocol}://${newDomain}${req.originalUrl}`;
+    console.log(`[REDIRECT] Old domain detected, redirecting to: ${newUrl}`);
+    return res.redirect(301, newUrl);
+  }
+  
+  next();
+});
+
 // Health check endpoint - MUST be first for fast deployment response
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
