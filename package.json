@@ -9,7 +9,7 @@
     "migrate": "node migrate.mjs",
     "db:fix": "node fix-db.mjs",
     "test:smtp": "node test-smtp.mjs",
-    "start": "node fix-db.mjs && node migrate.mjs && NODE_ENV=production tsx server/index.ts",
+    "start": "node migrate.mjs && node fix-db.mjs && NODE_ENV=production tsx server/index.ts",
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
