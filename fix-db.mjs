@@ -14,6 +14,20 @@ const sql = postgres(process.env.DATABASE_URL, { max: 1 });
 
 async function fixDatabase() {
   try {
+        // Check if users table exists
+    const tableExists = await sql`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'users'
+      )
+    `;
+    
+    if (!tableExists[0].exists) {
+      console.log('⚠️  Users table does not exist yet, skipping fix (will be created by migration)');
+      await sql.end();
+      process.exit(0);
+    }
+    
     console.log('📦 Adding missing columns to users table...');
     
     // Add email_verified column
