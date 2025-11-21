@@ -1244,7 +1244,7 @@ export function registerRoutes(app: Express): Server {
   // Generate Visual with Runware AI
   app.post("/api/generate/visual", async (req: Request, res: Response) => {
     try {
-      const user = await ensureUser(req);
+      const user = await getCurrentUser(req);
 
       const {projectId, prompt, negativePrompt, numberOfImages, size } = req.body;
 
@@ -2139,7 +2139,7 @@ Placement suggestion:`;
   // Generic AI Text Generation
   app.post("/api/ai/generate-text", async (req: Request, res: Response) => {
     try {
-      const user = await ensureUser(req);
+      const user = await getCurrentUser(req);
       const { prompt, modelPreference, brandContext } = req.body;
 
       if (!prompt) {
